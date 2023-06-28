@@ -41,3 +41,5 @@ def billing():
       "contents": "请问您需要结账了吗？我们接受现金和信用卡付款。"
     }
     return json.dumps(billing_info)
+
+# test
