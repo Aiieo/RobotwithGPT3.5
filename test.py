@@ -2,7 +2,7 @@ import os
 import openai
 from action import *
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = "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"
 
 messages = [{"role":"system","content":"你是一个餐厅服务员机器人，当发起会话的时候你需要询问客人是否需要帮助"}]
 while True:
@@ -62,7 +62,7 @@ while True:
       messages=messages,
       functions = functions,
       function_call="auto",
-      temperature=1,
+      temperature=0,
     )
     print(completion)
     response_message = completion
@@ -86,24 +86,35 @@ while True:
 
         function_name = funcall["name"]
         fuction_to_call = available_functions[function_name]
-        function_args = json.loads(funcall["arguments"])
+
+        print("**********************funcall********************")
+        print(funcall)
+        print("arguments:"+funcall["arguments"])
+        print("**********************funcall********************")
+
+        function_args = funcall["arguments"]
         function_response = fuction_to_call()
         
-        messages.append(response_message)  
+        print(json.loads(function_response)['contents']+"***")
+
+        #messages.append(response_message)  
         messages.append(
             {
                 "role": "function",
                 "name": function_name,
-                "content": function_response["contents"],
+                "content": json.loads(function_response)['contents'],
             }
         )  
-
+        print("****************message****************")
+        print(messages)
+        print("****************second_response****************")
         second_response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-0613",
             messages=messages,
-
         )  
-        answer = second_response
+        print("****************second_response_end****************")
+        print(second_response)
+        answer = second_response['choices'][0]['message'].get("content")
     #print(completion['choices'][0]['message']['function_call']['name'])
     print(f'ChatGPT: {answer}')
     messages.append({"role": "assistant", "content": answer})
