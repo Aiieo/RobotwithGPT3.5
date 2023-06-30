@@ -2,9 +2,9 @@ import os
 import openai
 from action import *
 
-openai.api_key = "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"
+openai.api_key = "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"
 
-messages = [{"role":"system","content":"你是一个餐厅服务员机器人，当发起会话的时候你需要询问客人是否需要帮助"}]
+messages = [{"role":"system","content":"你是一个餐厅服务员机器人，当发起会话的时候你需要询问客人是否需要帮助。"}]
 while True:
     content = input("User: ")
     messages.append({"role": "user", "content": content})
@@ -54,6 +54,31 @@ while True:
 
         },
     },
+        {
+        "name":"go_kitchen",
+        "description":"前往厨房",
+        "parameters":{
+            "type":"object",
+            "properties":{},
+
+        },
+    },    {
+        "name":"make",
+        "description":"做菜",
+        "parameters":{
+            "type":"object",
+            "properties":{},
+
+        },
+    },    {
+        "name":"serve",
+        "description":"当做好菜后把菜段给顾客",
+        "parameters":{
+            "type":"object",
+            "properties":{},
+
+        },
+    },
 ]
     print(messages)
     print("***************************\n")
@@ -82,6 +107,9 @@ while True:
             "special_diet":special_diet,
             "service_explanation":service_explanation,
             "billing":billing,
+            "go_kitchen":go_kitchen,
+            "make":make,
+            "serve":serve,
         } 
 
         function_name = funcall["name"]
